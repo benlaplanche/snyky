@@ -17,11 +17,6 @@ var _ = Describe("Snyky Test Command", func() {
 			cmd.SetOut(b)
 			cmd.SetArgs([]string{"test"})
 
-			// Workaround from https://github.com/onsi/ginkgo/issues/285
-			// origArgs := os.Args[:]
-			// os.Args = os.Args[:1]
-			// cmd.Execute()
-			// os.Args = origArgs[:]
 			cmd.Execute()
 
 			out, err := ioutil.ReadAll(b)
