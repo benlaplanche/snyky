@@ -2,6 +2,7 @@ package cmd_test
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 
 	. "github.com/benlaplanche/snyky/cmd"
@@ -24,15 +25,16 @@ var _ = Describe("Snyky Test Command", func() {
 			Expect(err).To(BeNil())
 		})
 
-		It("Discovers a file and policy pack", func() {
+		FIt("Discovers a file and policy pack", func() {
 			cmd := NewTestCmd()
 			b := bytes.NewBufferString("")
 			cmd.SetOut(b)
-			cmd.SetArgs([]string{"test", "--source=../terraform.tf"})
+			cmd.SetArgs([]string{"--source", "../terraform.tf", "--packs", "../packs/terraform"})
 
 			cmd.Execute()
 
 			out, err := ioutil.ReadAll(b)
+			fmt.Println(string(out))
 
 			expected_result, _ := ioutil.ReadFile("test_output.json")
 

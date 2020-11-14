@@ -24,6 +24,7 @@ import (
 
 // Source is the filesource
 var Source string
+var Packs string
 
 // NewTestCmd exported for testing
 func NewTestCmd() *cobra.Command {
@@ -36,8 +37,14 @@ func NewTestCmd() *cobra.Command {
 
 			// filename := "terraform.tf"
 			// arguments := []string{"test", string(filename), "--policy=packs/terraform", "--output=json"}
+			fmt.Println(args)
 			filename, _ := cmd.Flags().GetString("source")
 			args = append(args, filename)
+
+			packs, _ := cmd.Flags().GetString("packs")
+			if packs == "" {
+				packs = "packs"
+			}
 
 			// we need to run `$conftest test` so need to ensure `test` is the first arg
 			args = append([]string{"test"}, args...)
@@ -45,29 +52,31 @@ func NewTestCmd() *cobra.Command {
 			// add in our enforced output flag
 			args = append(args, "--output=json")
 			// we'll refactor this one out
-			args = append(args, "--policy=packs/terraform")
-			// args = append(args, fmt.Sprintf("--file=%s", filename))
+			// args = append(args, "--policy=/packs/terraform")
+			args = append(args, fmt.Sprintf("--policy=%s", packs))
 			fmt.Println(args)
 
-			out, err := exec.Command("conftest", args...).Output()
+			out, _ := exec.Command("conftest", args...).Output()
 
-			if string(out) == "" && err != nil {
-				fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
-			} else {
-				fmt.Fprintf(cmd.OutOrStdout(), string(out))
-			}
+			// if string(out) == "" && err != nil {
+			// 	fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
+			// } else {
+			fmt.Fprintf(cmd.OutOrStdout(), string(out))
+			// }
 		},
 	}
 	// var Source string
-	// testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
+	testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
+	testCmd.Flags().StringVarP(&Packs, "packs", "p", "", "Path to the policy packs to be run")
+	testCmd.MarkFlagRequired("source")
 	return testCmd
 }
 
 func init() {
 	testCmd := NewTestCmd()
 
-	testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
-	testCmd.MarkFlagRequired("source")
+	// testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
+	// testCmd.MarkFlagRequired("source")
 
 	rootCmd.AddCommand(testCmd)
 
