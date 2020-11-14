@@ -11,7 +11,7 @@ install:
 	go install github.com/benlaplanche/snyky
 
 test:
-	go test
+	ginkgo cmd/
 
 dev:
 	go build
