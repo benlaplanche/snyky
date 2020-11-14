@@ -14,8 +14,8 @@ test:
 	ginkgo cmd/
 
 dev:
-	go build
-	./snyky test -s terraform.tf
+	go build -o bin/snyky
+	./bin/snyky test -s terraform.tf
 
 compile:
 	echo "Compiling for every OS and Platform"
