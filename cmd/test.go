@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"os/exec"
 	"time"
@@ -38,14 +39,14 @@ type Files []struct {
 	} `json:"failures"`
 }
 
-type Results []struct {
+type Results struct {
 	Timestamp time.Time `json:"timestamp"`
 	Packs     []string  `json:"packs"`
-	Files     Files
+	Files     Files     `json:"files"`
 }
 
 // NewTestCmd exported for testing
-func NewTestCmd() *cobra.Command {
+func NewTestCmd(timestamp time.Time) *cobra.Command {
 	var testCmd = &cobra.Command{
 		Use:   "test",
 		Short: "Scan your configuration files for rules violations",
@@ -76,7 +77,24 @@ func NewTestCmd() *cobra.Command {
 			if string(out) == "" && err != nil {
 				fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
 			} else {
-				fmt.Fprintf(cmd.OutOrStdout(), string(out))
+				var files Files
+				err := json.Unmarshal([]byte(out), &files)
+				if err != nil {
+					fmt.Fprintf(cmd.OutOrStdout(), "Error unmarshalling JSON")
+				}
+
+				r := Results{
+					Timestamp: timestamp,
+					Packs:     []string{packs},
+					Files:     files,
+				}
+				// fmt.Fprintf(cmd.OutOrStdout(), string(out))
+				json, e := json.Marshal(&r)
+				if e != nil {
+					fmt.Fprintf(cmd.OutOrStdout(), "Error marshalling JSON output")
+				}
+
+				fmt.Fprintf(cmd.OutOrStdout(), string(json))
 			}
 		},
 	}
@@ -89,7 +107,7 @@ func NewTestCmd() *cobra.Command {
 }
 
 func init() {
-	testCmd := NewTestCmd()
+	testCmd := NewTestCmd(time.Now())
 
 	rootCmd.AddCommand(testCmd)
 }

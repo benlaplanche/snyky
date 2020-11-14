@@ -1,8 +1,8 @@
-[{
-	"timestamp": "sdf",
-	"packs": ["terraform"],
+{
+	"timestamp": "0001-01-01T00:00:00Z",
+	"packs": ["../packs/terraform"],
 	"files": [{
-		"filename": "terraform.tf",
+		"filename": "../terraform.tf",
 		"successes": 1,
 		"warnings": [],
 		"failures": [{
@@ -13,4 +13,4 @@
 			}
 		]
 	}]
-}]
+}

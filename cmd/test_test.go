@@ -3,6 +3,7 @@ package cmd_test
 import (
 	"bytes"
 	"io/ioutil"
+	"time"
 
 	. "github.com/benlaplanche/snyky/cmd"
 	. "github.com/onsi/ginkgo"
@@ -10,9 +11,18 @@ import (
 )
 
 var _ = Describe("Snyky Test Command", func() {
+	var Timestamp time.Time
+
+	BeforeEach(func() {
+		// gotta be a better way of forcing a timestamp
+		timelayout := "2020-11-14T19:48:15.978286Z"
+		timestring := "2020-11-14T19:48:15.978286Z"
+		Timestamp, _ = time.Parse(timelayout, timestring)
+	})
+
 	Context("Runs successfully when", func() {
 		It("Is not passed any flags", func() {
-			cmd := NewTestCmd()
+			cmd := NewTestCmd(Timestamp)
 			b := bytes.NewBufferString("")
 			cmd.SetOut(b)
 			cmd.SetArgs([]string{"test"})
@@ -24,7 +34,7 @@ var _ = Describe("Snyky Test Command", func() {
 		})
 
 		It("Discovers a file and policy pack", func() {
-			cmd := NewTestCmd()
+			cmd := NewTestCmd(Timestamp)
 			b := bytes.NewBufferString("")
 			cmd.SetOut(b)
 			cmd.SetArgs([]string{"--source", "../terraform.tf", "--packs", "../packs/terraform"})
