@@ -17,3 +17,9 @@ First make sure you have conftest installed, following the instructions [here](h
 Next run `go get github.com/benlaplanche/snyky` to instlal this onto your path
 
 Run `$ snyky test --help` to check it's all working correctly.
+
+## TODOS
+
+- ability to specify multiple packs as a flag. should this be `-p terraform -p user` or `-p terraform,user`
+- `packs` output in the JSON should really be subdirectory e.g. `terraform` or `user`
+- can we show details of the successful policies aswell? looks like a change is needed to conftest to output allow rules?
