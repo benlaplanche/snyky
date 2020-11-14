@@ -8,7 +8,7 @@ An experiment to see what an alternative Snyk IaC experience could look like
 
 `$ snyky test -s <filename>` will test the current directory of files against all of the policy packs in the `packs` folder
 
-`$ snyky test -s <filename> -p=snyk,user` will only use the Snyk & User provided policies found in `packs/snyk` and `packs/user` respectively
+`$ snyky test -s <filename> -p snyk,user` will only use the Snyk & User provided policies found in `packs/snyk` and `packs/user` respectively
 
 ## Installation
 

@@ -15,7 +15,7 @@ test:
 
 dev:
 	go build -o bin/snyky
-	./bin/snyky test -s terraform.tf
+	./bin/snyky test -s examples/terraform.tf
 
 compile:
 	echo "Compiling for every OS and Platform"
