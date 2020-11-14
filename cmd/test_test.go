@@ -26,7 +26,9 @@ var _ = Describe("Snyky Test Command", func() {
 
 			out, err := ioutil.ReadAll(b)
 
-			Expect(string(out)).To(Equal("test called"))
+			expected_result, _ := ioutil.ReadFile("test_output.json")
+
+			Expect(string(out)).To(MatchJSON(expected_result))
 			Expect(err).To(BeNil())
 
 		})

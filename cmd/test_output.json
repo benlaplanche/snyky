@@ -1,0 +1,15 @@
+[
+	{
+		"filename": "../terraform.tf",
+		"successes": 1,
+		"warnings": [],
+		"failures": [
+			{
+				"msg": "ASG `my-rule` defines a fully open ingress"
+			},
+			{
+				"msg": "Azure disk `source` is not encrypted"
+			}
+		]
+	}
+]

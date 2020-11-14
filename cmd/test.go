@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"os/exec"
 
 	"github.com/spf13/cobra"
 )
@@ -33,7 +34,13 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Fprintf(cmd.OutOrStdout(), "test called")
+			// fmt.Fprintf(cmd.OutOrStdout(), "test called")
+
+			filename := "../terraform.tf"
+			arguments := []string{"test", string(filename), "--policy=../packs/terraform", "--output=json"}
+			// TODO: handle conftest not running due to an error such as not finding the policies
+			out, _ := exec.Command("conftest", arguments...).Output()
+			fmt.Fprintf(cmd.OutOrStdout(), string(out))
 		},
 	}
 	return testCmd
