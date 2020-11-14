@@ -24,6 +24,8 @@ import (
 
 // Source is the filesource
 var Source string
+
+// Packs are an optional list of policy packs to be run
 var Packs string
 
 // NewTestCmd exported for testing
@@ -62,29 +64,16 @@ func NewTestCmd() *cobra.Command {
 			}
 		},
 	}
-	// var Source string
+
 	testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
 	testCmd.Flags().StringVarP(&Packs, "packs", "p", "", "Path to the policy packs to be run")
 	testCmd.MarkFlagRequired("source")
+
 	return testCmd
 }
 
 func init() {
 	testCmd := NewTestCmd()
 
-	// testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
-	// testCmd.MarkFlagRequired("source")
-
 	rootCmd.AddCommand(testCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// testCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// testCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	// testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
 }
