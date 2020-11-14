@@ -18,6 +18,7 @@ func main() {
 
 	if out != nil {
 		// fmt.Fprintln(os.Stdout, out)
-		fmt.Printf("Test results are...\n %v", out)
+		// fmt.Printf("Test results are...\n %v", out)
+		fmt.Print(out)
 	}
 }
