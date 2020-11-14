@@ -18,7 +18,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"os/exec"
 
 	"github.com/spf13/cobra"
 
@@ -40,13 +39,13 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) {
-		filename := "terraform.tf"
-		arguments := []string{"test", string(filename), "--policy=packs/terraform"}
-		// TODO: handle conftest not running due to an error such as not finding the policies
-		out, _ := exec.Command("conftest", arguments...).Output()
-		fmt.Println(string(out))
-	},
+	// Run: func(cmd *cobra.Command, args []string) {
+	// 	filename := "terraform.tf"
+	// 	arguments := []string{"test", string(filename), "--policy=packs/terraform"}
+	// 	// TODO: handle conftest not running due to an error such as not finding the policies
+	// 	out, _ := exec.Command("conftest", arguments...).Output()
+	// 	fmt.Println(string(out))
+	// },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
