@@ -9,7 +9,8 @@ import (
 func main() {
 	// fmt.Println("SUCCESS")
 	filename := "terraform.tf"
-	out, err := exec.Command("conftest", "test", filename, "--policy=packs/terraform").Output()
+	args := []string{"test", string(filename), "--policy=packs/terraform"}
+	out, err := exec.Command("conftest", args...).Output()
 	if err != nil {
 		log.Fatal(err)
 	}
