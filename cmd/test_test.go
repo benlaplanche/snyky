@@ -28,7 +28,7 @@ var _ = Describe("Snyky Test Command", func() {
 			cmd := NewTestCmd()
 			b := bytes.NewBufferString("")
 			cmd.SetOut(b)
-			cmd.SetArgs([]string{"test"})
+			cmd.SetArgs([]string{"test", "--source=../terraform.tf"})
 
 			cmd.Execute()
 

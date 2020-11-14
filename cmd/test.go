@@ -22,6 +22,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Source is the filesource
+var Source string
+
 // NewTestCmd exported for testing
 func NewTestCmd() *cobra.Command {
 	var testCmd = &cobra.Command{
@@ -31,10 +34,22 @@ func NewTestCmd() *cobra.Command {
 		This uses a concept of packs, which are groups of policies that can be turned on and off.`,
 		Run: func(cmd *cobra.Command, args []string) {
 
-			filename := "../terraform.tf"
-			arguments := []string{"test", string(filename), "--policy=../packs/terraform", "--output=json"}
+			// filename := "terraform.tf"
+			// arguments := []string{"test", string(filename), "--policy=packs/terraform", "--output=json"}
+			filename, _ := cmd.Flags().GetString("source")
+			args = append(args, filename)
 
-			out, err := exec.Command("conftest", arguments...).Output()
+			// we need to run `$conftest test` so need to ensure `test` is the first arg
+			args = append([]string{"test"}, args...)
+
+			// add in our enforced output flag
+			args = append(args, "--output=json")
+			// we'll refactor this one out
+			args = append(args, "--policy=packs/terraform")
+			// args = append(args, fmt.Sprintf("--file=%s", filename))
+			fmt.Println(args)
+
+			out, err := exec.Command("conftest", args...).Output()
 
 			if string(out) == "" && err != nil {
 				fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
@@ -43,11 +58,18 @@ func NewTestCmd() *cobra.Command {
 			}
 		},
 	}
+	// var Source string
+	// testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
 	return testCmd
 }
 
 func init() {
-	rootCmd.AddCommand(NewTestCmd())
+	testCmd := NewTestCmd()
+
+	testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
+	testCmd.MarkFlagRequired("source")
+
+	rootCmd.AddCommand(testCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -58,4 +80,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// testCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// testCmd.Flags().StringVarP(&Source, "source", "s", "", "Source directory to read from")
 }
