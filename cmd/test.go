@@ -26,21 +26,21 @@ import (
 func NewTestCmd() *cobra.Command {
 	var testCmd = &cobra.Command{
 		Use:   "test",
-		Short: "A brief description of your command",
-		Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+		Short: "Scan your configuration files for rules violations",
+		Long: `An experimental Snyk IaC replacement that uses conftest locally to scan your configuration files for rules violations. 
+		This uses a concept of packs, which are groups of policies that can be turned on and off.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			// fmt.Fprintf(cmd.OutOrStdout(), "test called")
 
 			filename := "../terraform.tf"
 			arguments := []string{"test", string(filename), "--policy=../packs/terraform", "--output=json"}
-			// TODO: handle conftest not running due to an error such as not finding the policies
-			out, _ := exec.Command("conftest", arguments...).Output()
-			fmt.Fprintf(cmd.OutOrStdout(), string(out))
+
+			out, err := exec.Command("conftest", arguments...).Output()
+
+			if string(out) == "" && err != nil {
+				fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
+			} else {
+				fmt.Fprintf(cmd.OutOrStdout(), string(out))
+			}
 		},
 	}
 	return testCmd
