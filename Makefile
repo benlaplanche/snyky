@@ -13,6 +13,10 @@ install:
 test:
 	go test
 
+dev:
+	go build
+	./snyky
+
 compile:
 	echo "Compiling for every OS and Platform"
 	GOOS=linux GOARCH=arm go build -o bin/main-linux-arm main.go

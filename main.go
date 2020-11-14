@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "snyky/cmd"
+import "github.com/benlaplanche/snyky/cmd"
 
 func main() {
 	cmd.Execute()

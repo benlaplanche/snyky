@@ -43,9 +43,9 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		filename := "terraform.tf"
 		arguments := []string{"test", string(filename), "--policy=packs/terraform"}
+		// TODO: handle conftest not running due to an error such as not finding the policies
 		out, _ := exec.Command("conftest", arguments...).Output()
-		fmt.Fprintf(cmd.OutOrStdout(), string(out))
-
+		fmt.Println(string(out))
 	},
 }
 
