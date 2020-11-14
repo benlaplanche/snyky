@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"os"
 	"os/exec"
 )
 
@@ -12,7 +12,8 @@ func main() {
 	args := []string{"test", string(filename), "--policy=packs/terraform"}
 	out, err := exec.Command("conftest", args...).Output()
 	if err != nil {
-		log.Fatal(err)
+		fmt.Fprintln(os.Stderr, err)
+		// log.Fatal(err)
 	}
 	fmt.Printf("The date is %s\n", out)
 }
