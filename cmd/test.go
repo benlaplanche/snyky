@@ -35,34 +35,31 @@ func NewTestCmd() *cobra.Command {
 		This uses a concept of packs, which are groups of policies that can be turned on and off.`,
 		Run: func(cmd *cobra.Command, args []string) {
 
-			// filename := "terraform.tf"
-			// arguments := []string{"test", string(filename), "--policy=packs/terraform", "--output=json"}
-			fmt.Println(args)
+			// Setup the files to be scanned
+			// Appending this here as it needs to be the 2nd argument
 			filename, _ := cmd.Flags().GetString("source")
 			args = append(args, filename)
 
+			// we need to run `$conftest test` so need to ensure `test` is the 1st argument
+			args = append([]string{"test"}, args...)
+
+			// Setup the policy packs to run
 			packs, _ := cmd.Flags().GetString("packs")
 			if packs == "" {
 				packs = "packs"
 			}
-
-			// we need to run `$conftest test` so need to ensure `test` is the first arg
-			args = append([]string{"test"}, args...)
+			args = append(args, fmt.Sprintf("--policy=%s", packs))
 
 			// add in our enforced output flag
 			args = append(args, "--output=json")
-			// we'll refactor this one out
-			// args = append(args, "--policy=/packs/terraform")
-			args = append(args, fmt.Sprintf("--policy=%s", packs))
-			fmt.Println(args)
 
-			out, _ := exec.Command("conftest", args...).Output()
+			out, err := exec.Command("conftest", args...).Output()
 
-			// if string(out) == "" && err != nil {
-			// 	fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
-			// } else {
-			fmt.Fprintf(cmd.OutOrStdout(), string(out))
-			// }
+			if string(out) == "" && err != nil {
+				fmt.Fprintf(cmd.OutOrStdout(), "Error executing conftest")
+			} else {
+				fmt.Fprintf(cmd.OutOrStdout(), string(out))
+			}
 		},
 	}
 	// var Source string
