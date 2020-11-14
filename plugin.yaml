@@ -1,0 +1,7 @@
+name: "snyky"
+version: "0.0.1"
+usage: conftest snyky
+description: |-
+  Experimental plugin to create an alternative Snyk IaC experience
+  Usage: conftest snyky
+command: $CONFTEST_PLUGIN_DIR/snyky
