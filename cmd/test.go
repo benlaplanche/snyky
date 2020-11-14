@@ -88,7 +88,7 @@ func NewTestCmd(timestamp time.Time) *cobra.Command {
 					Packs:     []string{packs},
 					Files:     files,
 				}
-				// fmt.Fprintf(cmd.OutOrStdout(), string(out))
+
 				json, e := json.Marshal(&r)
 				if e != nil {
 					fmt.Fprintf(cmd.OutOrStdout(), "Error marshalling JSON output")
