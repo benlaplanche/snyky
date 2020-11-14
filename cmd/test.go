@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 	"os/exec"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -27,6 +28,21 @@ var Source string
 
 // Packs are an optional list of policy packs to be run
 var Packs string
+
+type Files []struct {
+	Filename  string        `json:"filename"`
+	Successes int           `json:"successes"`
+	Warnings  []interface{} `json:"warnings"`
+	Failures  []struct {
+		Msg string `json:"msg"`
+	} `json:"failures"`
+}
+
+type Results []struct {
+	Timestamp time.Time `json:"timestamp"`
+	Packs     []string  `json:"packs"`
+	Files     Files
+}
 
 // NewTestCmd exported for testing
 func NewTestCmd() *cobra.Command {
