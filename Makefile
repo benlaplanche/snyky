@@ -14,8 +14,8 @@ test:
 	ginkgo cmd/
 
 dev:
-	go build -o bin/snyky
-	./bin/snyky test -s examples/deployment.yaml
+	@go build -o bin/snyky
+	@./bin/snyky test -s examples/deployment.yaml
 
 compile:
 	echo "Compiling for every OS and Platform"
