@@ -13,9 +13,13 @@ install:
 test:
 	ginkgo cmd/
 
-dev:
+dev-all:
 	@go build -o bin/snyky
-	@./bin/snyky test -s examples/deployment.yaml
+	@./bin/snyky test -s examples/deployment.yaml | jq .
+
+dev-security:
+	@go build -o bin/snyky
+	@./bin/snyky test -s examples/deployment.yaml -p packs/snyk-k8s | jq .
 
 compile:
 	echo "Compiling for every OS and Platform"
