@@ -21,6 +21,10 @@ dev-security:
 	@go build -o bin/snyky
 	@./bin/snyky test -s examples/deployment.yaml -p packs/snyk-k8s | jq .
 
+dev-sca:
+	@go build -o bin/snyky
+	@./bin/snyky test -s examples/package.json -p packs/snyk-sca | jq .
+
 compile:
 	echo "Compiling for every OS and Platform"
 	GOOS=linux GOARCH=arm go build -o bin/main-linux-arm main.go
